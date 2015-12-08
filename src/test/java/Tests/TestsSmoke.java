@@ -33,6 +33,16 @@ public class TestsSmoke {
         this.webdriver = webdriver;
     }
 
+    @BeforeClass
+    public static void setPrecondition() {
+        TestHelper.localDriverFullscreenAndGo("chrome","https://test2.vocalpoint.com/articles");
+        ArticlePage.goToTheFirstAvailableArticle();
+        Environments.getGrabbedArticleUrl();
+    }
+    @AfterClass
+    public static void setPostcondition() {
+
+    }
     @Title("Launch web driver.")
     @Before
     public void setUp() {
@@ -44,19 +54,12 @@ public class TestsSmoke {
         TestHelper.quit();
     }
 
-    @Test
-    public void getArticleUrlPrecondition() {
-        Environments.goToVocalpointTestEnvironment("/articles");
-        ArticlePage.goToTheFirstAvailableArticle();
-        Environments.getGrabbedArticleUrl();
-    }
-
     @Features("Authorization and Registration")
     @Stories("User should be able to log in via existed account.")
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void userShouldBeAbleToLogIn() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         HomePage.clickOnlogInButton();
         AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
         AuthorizationPage.fillInputPassword(AuthorizationPage.validPassword);
@@ -69,7 +72,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void a_AbilityToAddComments() {
-        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        Environments.goTo(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         ArticlePage.fillTextAreaByComment();
         ArticlePage.clickOnPostMyCommentButton();
@@ -81,7 +84,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void b_VerifyCommentsSection() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.goToCommentsSection();
@@ -93,7 +96,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void c_VerifyDeletingComments() {
-        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        Environments.goTo(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.deleteComment();
@@ -106,7 +109,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void a_AbilityToAddLoves() {
-        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        Environments.goTo(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         ArticlePage.loveArticle();
         ArticlePage.verifyThatLovesCounterIsIncreased();
@@ -117,7 +120,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void b_AbilityToRemoveLoveInArticle() {
-        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        Environments.goTo(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         ArticlePage.unLoveArticle();
         ArticlePage.verifyThatLovesCounterIsDecreased();
@@ -129,7 +132,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void c_VerifyLoveSection() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.goToLovesSection();
@@ -141,7 +144,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void d_VerifyDeletingLove() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.goToLovesSection();
@@ -154,7 +157,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void y_logInAfterResetPassword() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.clickOnResetPasswordButton();
@@ -170,7 +173,7 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void z_resetPasswordVerification() {
-        Environments.goToVocalpointTestEnvironment("/");
+        Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.clickOnResetPasswordButton();

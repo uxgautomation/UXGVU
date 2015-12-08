@@ -8,9 +8,11 @@ public class Environments {
     public static String TEST_UNRATOJUNTAS_BASE_URL = "http://test2.unratojuntas.com";
     public static String UAT_UNRATOJUNTAS_BASE_URL = "https://uat.unratojuntas.com";
 
-    @Step("Go to the Vocalpoint test environment.")
-    public static void goToVocalpointTestEnvironment(String uri) {
-        TestHelper.get(TEST_VOCALPOINT_BASE_URL + uri);
+    public static String TEST_VOCALPOINT_BASE_URL_ARTICLES = "http://test2.vocalpoint.com/articles";
+
+    @Step("Go to the testable environment.")
+    public static void goTo(String url) {
+        TestHelper.get(url);
     }
     @Step("Go to the Un Rato Juntas test environment.")
     public static void goToUnRatoJuntasTestEnvironment(String uri) {
