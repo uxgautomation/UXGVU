@@ -38,10 +38,6 @@ public class TestsSmoke {
         TestHelper.localDriverFullscreenAndGo("chrome","https://test2.vocalpoint.com/articles");
         ArticlePage.goToTheFirstAvailableArticle();
         Environments.getGrabbedArticleUrl();
-        AuthorizationPage.logIn();
-        HomePage.goToMyProfile();
-        ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.setDefaultPassword();
         TestHelper.quit();
     }
     @AfterClass
@@ -65,8 +61,8 @@ public class TestsSmoke {
     @Test
     public void userShouldBeAbleToLogIn() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
-        HomePage.clickOnLogInButton();
-        ProfilePage.setRightPreconditionPasswordAndLogIn();
+        AuthorizationPage.logIn();
+        AuthorizationPage.verifyWelcomeMessage();
     }
 
     @Features("Articles")
@@ -179,12 +175,6 @@ public class TestsSmoke {
     public void z_logInAfterResetPassword() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
-        HomePage.goToMyProfile();
-        ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
-        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.submitResetPasswordForm();
-        ProfilePage.verifyThatConfirmationMessageAppears();
+        AuthorizationPage.verifyWelcomeMessage();
     }
 }

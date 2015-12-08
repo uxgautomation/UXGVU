@@ -12,6 +12,8 @@ public class AuthorizationPage {
     public static String xpathInputLogin = "//*[@id='edit-name']";
     public static String xpathInputPassword = "//*[@id='edit-pass']";
     public static String xpathSubmitButton = "//*[@id='edit-submit']";
+    public static String xpathWrongCredentialsMessage = "//*[contains(text(),'unrecognized username or password')]";
+
 
     @Step("Fill Email input with valid value.")
     public static void fillInputLogin(String login) {
@@ -36,5 +38,13 @@ public class AuthorizationPage {
         fillInputLogin(validLogin);
         fillInputPassword(validPassword);
         submitAuthorization();
+        checkErrorMessage();
+    }
+    @Step("Previous password was wrong, picked up right.")
+    public static void checkErrorMessage() {
+        if(TestHelper.waitXpathElement(xpathWrongCredentialsMessage).isDisplayed()) {
+            fillInputPassword(validNewPassword);
+            submitAuthorization();
+        }
     }
 }

@@ -40,20 +40,6 @@ public class ProfilePage {
             TestHelper.waitXpathElement(AuthorizationPage.xpathSubmitButton).click();
         }
     }
-    @Step("Set right current password.")
-    public static void setDefaultPassword() {
-        if(checkpointForPickUpPassword == 1) {
-        } else {
-            HomePage.goToMyProfile();
-            clickOnResetPasswordButton();
-            fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
-            fillNewPasswordInput(AuthorizationPage.validPassword);
-            fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
-            submitResetPasswordForm();
-            verifyThatConfirmationMessageAppears();
-        }
-    }
-
 
     @Step("Click on Reset Password.")
     public static void clickOnResetPasswordButton() {
