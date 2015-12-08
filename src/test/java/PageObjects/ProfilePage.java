@@ -7,9 +7,9 @@ import ru.yandex.qatools.allure.annotations.Step;
 public class ProfilePage {
     public static String xpathButtonResetPassword = "//*[@id='resetpass']";
     public static String xpathInputCurrentPassword = "//*[@id='edit-current-pass']";
-    public static String xpathInputNewPassword = "//*[@id='edit-current-pass']";
-    public static String xpathInputConfirmNewPassword = "//*[@id='edit-current-pass']";
-    public static String xpathButtonSubmitResetPassword = "//*[@id='edit-submit-rp--3']";
+    public static String xpathInputNewPassword = "//*[@id='edit-pass-pass1']";
+    public static String xpathInputConfirmNewPassword = "//*[@id='edit-pass-pass2']";
+    public static String xpathButtonSubmitResetPassword = "//*[@value='Reset Password']";
     public static String xpathConfirmationMessage = "//*[@class='resetpass-popup']";
 
     public static String xpathLinkToCommentsSection = "//a[@href='/profile/2049189/comments']";

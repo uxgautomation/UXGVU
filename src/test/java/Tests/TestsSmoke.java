@@ -131,7 +131,7 @@ public class TestsSmoke {
     @Stories("User should be able to unlove in article.")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void b_VerifyUnLoveInArticle() {
+    public void b_AbilityToRemoveLoveInArticle() {
         Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         ArticlePage.unLoveArticle();
