@@ -210,6 +210,11 @@ public class TestHelper {
         new Actions(driver).moveToElement(driver.findElement(By.cssSelector(selector)));
     }
 
+    public static int stringToInteger(String selector) {
+        int newInt = Integer.parseInt(TestHelper.waitXpathElement(selector).getText());
+        return newInt;
+    }
+
 //Alert handler and windows switcher
     public static boolean checkIsAlertPresent() {
         try {
