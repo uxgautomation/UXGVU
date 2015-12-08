@@ -42,7 +42,7 @@ public class ProfilePage {
         TestHelper.waitXpathElement(xpathButtonSubmitResetPassword).click();
     }
     @Step("Make sure that pop up with confirmation message appears.")
-    public static void checkThatConfirmationMessageAppears() {
+    public static void verifyThatConfirmationMessageAppears() {
         Assert.assertEquals(true,TestHelper.waitXpathElement(xpathConfirmationMessage).isDisplayed());
     }
 

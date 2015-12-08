@@ -26,7 +26,7 @@ public class AuthorizationPage {
         TestHelper.waitXpathElement(AuthorizationPage.xpathSubmitButton).click();
     }
     @Step("Make sure that welcome message appeared.")
-    public static void seesWelcomeAuthorizedUser() {
+    public static void verifyWelcomeMessage() {
         Assert.assertEquals(true,TestHelper.waitXpathElement(HomePage.xpathMessageWelcome).isDisplayed());
     }
 

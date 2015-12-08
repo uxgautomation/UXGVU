@@ -16,6 +16,7 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 import java.util.Arrays;
 import java.util.Collection;
 
+@Title("Smoke Test Suite")
 @RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestsSmoke {
@@ -32,13 +33,6 @@ public class TestsSmoke {
         this.webdriver = webdriver;
     }
 
-    @Title("Set required test suite preconditions.")
-    @BeforeClass
-    public static void precondition() {
-        Environments.goToVocalpointTestEnvironment("/articles");
-        ArticlePage.goToTheFirstAvailableArticle();
-        Environments.getGrabbedArticleUrl();
-    }
     @Title("Launch web driver.")
     @Before
     public void setUp() {
@@ -49,21 +43,12 @@ public class TestsSmoke {
     public void tearDown() {
         TestHelper.quit();
     }
-    @Title("Set required test suite postconditions.")
-    @AfterClass
-    public static void postcondition() {
-        Environments.goToVocalpointTestEnvironment("/");
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
-        AuthorizationPage.fillInputPassword(AuthorizationPage.validNewPassword);
-        AuthorizationPage.submitAuthorization();
-        HomePage.goToMyProfile();
-        ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
-        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.submitResetPasswordForm();
-        ProfilePage.checkThatConfirmationMessageAppears();
+
+    @Test
+    public void getArticleUrlPrecondition() {
+        Environments.goToVocalpointTestEnvironment("/articles");
+        ArticlePage.goToTheFirstAvailableArticle();
+        Environments.getGrabbedArticleUrl();
     }
 
     @Features("Authorization and Registration")
@@ -76,7 +61,7 @@ public class TestsSmoke {
         AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
         AuthorizationPage.fillInputPassword(AuthorizationPage.validPassword);
         AuthorizationPage.submitAuthorization();
-        AuthorizationPage.seesWelcomeAuthorizedUser();
+        AuthorizationPage.verifyWelcomeMessage();
     }
 
     @Features("Articles")
@@ -165,6 +150,22 @@ public class TestsSmoke {
     }
 
     @Features("Reset Password")
+    @Stories("User should be able to log in with new password value after password reset.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void y_logInAfterResetPassword() {
+        Environments.goToVocalpointTestEnvironment("/");
+        AuthorizationPage.logIn();
+        HomePage.goToMyProfile();
+        ProfilePage.clickOnResetPasswordButton();
+        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.submitResetPasswordForm();
+        ProfilePage.verifyThatConfirmationMessageAppears();
+    }
+
+    @Features("Reset Password")
     @Stories("User should be able to change password of existed account.")
     @Severity(SeverityLevel.BLOCKER)
     @Test
@@ -173,10 +174,10 @@ public class TestsSmoke {
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.fillNewPasswordInput(AuthorizationPage.validNewPassword);
-        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
         ProfilePage.submitResetPasswordForm();
-        ProfilePage.checkThatConfirmationMessageAppears();
+        ProfilePage.verifyThatConfirmationMessageAppears();
     }
 }
