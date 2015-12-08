@@ -62,7 +62,7 @@ public class TestsSmoke {
 
     @Features("Authorization and Registration")
     @Stories("User should be able to log in via existed account.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void userShouldBeAbleToLogIn() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
@@ -72,7 +72,7 @@ public class TestsSmoke {
 
     @Features("Articles")
     @Stories("User should be able to leave comments in articles.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void a_AbilityToAddComments() {
         Environments.goTo(Environments.grabbedArticleUrl);
@@ -84,7 +84,7 @@ public class TestsSmoke {
 
     @Features("Comments")
     @Stories("User should be able to see comments section in account profile.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void b_VerifyCommentsSection() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
@@ -96,7 +96,7 @@ public class TestsSmoke {
 
     @Features("Comments")
     @Stories("User should be able to delete comments in account profile.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void c_VerifyDeletingComments() {
         Environments.goTo(Environments.grabbedArticleUrl);
@@ -109,7 +109,7 @@ public class TestsSmoke {
 
     @Features("Loves")
     @Stories("User should be able to add loves in articles.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void a_AbilityToAddLoves() {
         Environments.goTo(Environments.grabbedArticleUrl);
@@ -120,7 +120,7 @@ public class TestsSmoke {
 
     @Features("Loves")
     @Stories("User should be able to unlove in article.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void b_AbilityToRemoveLoveInArticle() {
         Environments.goTo(Environments.grabbedArticleUrl);
@@ -132,7 +132,7 @@ public class TestsSmoke {
 
     @Features("Loves")
     @Stories("User should be able to overview loves section in account profile.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void c_VerifyLoveSection() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
@@ -144,7 +144,7 @@ public class TestsSmoke {
 
     @Features("Loves")
     @Stories("User should be able to delete love in loves section of account profile.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void d_VerifyDeletingLove() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
@@ -156,26 +156,26 @@ public class TestsSmoke {
     }
 
     @Features("Reset Password")
-    @Stories("User should be able to log in with new password value after password reset.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Stories("User should be able to change password of existed account.")
+    @Severity(SeverityLevel.CRITICAL)
     @Test
-    public void y_logInAfterResetPassword() {
+    public void y_resetPasswordVerification() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
-        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
-        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillNewPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validNewPassword);
         ProfilePage.submitResetPasswordForm();
         ProfilePage.verifyThatConfirmationMessageAppears();
     }
 
     @Features("Reset Password")
-    @Stories("User should be able to change password of existed account.")
-    @Severity(SeverityLevel.BLOCKER)
+    @Stories("User should be able to log in with new password value after password reset.")
+    @Severity(SeverityLevel.CRITICAL)
     @Test
-    public void z_resetPasswordVerification() {
+    public void z_logInAfterResetPassword() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
