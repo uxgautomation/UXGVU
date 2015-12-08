@@ -182,14 +182,14 @@ public class TestHelper {
         }
         return null;
     }
-    public static WebElement waitXpathElementNotExist(String selector) {
+    public static boolean waitXpathElementNotExist(String selector) {
         for (int i = 0; i < 200; i++) {
             if (driver.findElements(By.xpath(selector)).size() == 0) {
                 break;
             }
             waitMsec(100);
         }
-        return null;
+        return true;
     }
     public static WebElement waitCssElementNotExist(String selector) {
         for (int i = 0; i < 200; i++) {

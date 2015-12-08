@@ -1,4 +1,4 @@
-package PageObjects;
+package Common;
 
 import ru.yandex.qatools.allure.annotations.Attachment;
 
