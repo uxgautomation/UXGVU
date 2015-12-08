@@ -87,7 +87,7 @@ public class ProfilePage {
         TestHelper.waitXpathElement(xpathLinkToCommentsSection).click();
     }
     @Step("Verify that previously added comments are displayed.")
-    public static void verifyThatCommentSectionIsOpened() {
+    public static void verifyThatCommentInSectionIsDisplayed() {
         Assert.assertEquals(true,TestHelper.waitXpathElement(xpathCommentInCommentsSection).isDisplayed());
     }
 
@@ -97,6 +97,7 @@ public class ProfilePage {
     }
     @Step("Confirm deleting by click on Yes button in pop up.")
     public static void confirmDeleteComment() {
+        TestHelper.waitMsec(1500);
         TestHelper.waitXpathElement(xpathButtonYesDeleteComment).click();
     }
     @Step("Make sure that deleted comment isn't displays now.")
@@ -117,9 +118,13 @@ public class ProfilePage {
     public static void deleteLoveInProfile() {
         TestHelper.waitXpathElement(xpathButtonDeleteCommentLove).click();
     }
+    @Step("Confirm deleting by click on Yes button in pop up.")
+    public static void confirmDeleteLove() {
+        TestHelper.waitMsec(1500);
+        TestHelper.waitXpathElement(xpathButtonYesDeleteComment).click();
+    }
     @Step("Verify that deleted love isn't displays in Loves section of user profile.")
     public static void verifyLoveDeleted() {
         Assert.assertEquals(true,TestHelper.waitXpathElementNotExist(xpathLoveInLovesSection));
-
     }
 }

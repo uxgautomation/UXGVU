@@ -12,7 +12,6 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
 import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.model.SeverityLevel;
-import sun.java2d.cmm.Profile;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -91,7 +90,7 @@ public class TestsSmoke {
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.goToCommentsSection();
-        ProfilePage.verifyThatCommentSectionIsOpened();
+        ProfilePage.verifyThatCommentInSectionIsDisplayed();
     }
 
     @Features("Comments")
@@ -102,6 +101,7 @@ public class TestsSmoke {
         Environments.goTo(Environments.grabbedArticleUrl);
         AuthorizationPage.logIn();
         HomePage.goToMyProfile();
+        ProfilePage.goToCommentsSection();
         ProfilePage.deleteComment();
         ProfilePage.confirmDeleteComment();
         ProfilePage.verifyThatCommentIsDeleted();
@@ -152,6 +152,7 @@ public class TestsSmoke {
         HomePage.goToMyProfile();
         ProfilePage.goToLovesSection();
         ProfilePage.deleteLoveInProfile();
+        ProfilePage.confirmDeleteLove();
         ProfilePage.verifyLoveDeleted();
     }
 
