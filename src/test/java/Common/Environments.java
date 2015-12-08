@@ -1,6 +1,5 @@
 package Common;
 
-import Common.TestHelper;
 import ru.yandex.qatools.allure.annotations.Step;
 
 public class Environments {
@@ -26,4 +25,10 @@ public class Environments {
         TestHelper.get(UAT_UNRATOJUNTAS_BASE_URL + uri);
     }
 
+    public static String grabbedArticleUrl = "default";
+
+    public static String getGrabbedArticleUrl() {
+        grabbedArticleUrl = TestHelper.driver.getCurrentUrl();
+        return grabbedArticleUrl;
+    }
 }

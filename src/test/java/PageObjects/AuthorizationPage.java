@@ -5,17 +5,21 @@ import org.junit.Assert;
 import ru.yandex.qatools.allure.annotations.Step;
 
 public class AuthorizationPage {
+    public static String validLogin = "uxgautomation@gmail.com";
+    public static String validPassword = "Uxgpassword1";
+    public static String validNewPassword = "Uxgpassword2";
+
     public static String xpathInputLogin = "//*[@id='edit-name']";
     public static String xpathInputPassword = "//*[@id='edit-pass']";
     public static String xpathSubmitButton = "//*[@id='edit-submit']";
 
     @Step("Fill Email input with valid value.")
-    public static void fillInputLogin() {
-        TestHelper.waitXpathElement(AuthorizationPage.xpathInputLogin).sendKeys("uxgautomation@gmail.com");
+    public static void fillInputLogin(String login) {
+        TestHelper.waitXpathElement(AuthorizationPage.xpathInputLogin).sendKeys(login);
     }
     @Step("Fill Password input with valid value.")
-    public static void fillInputPassword() {
-        TestHelper.waitXpathElement(AuthorizationPage.xpathInputPassword).sendKeys("Uxgpassword1");
+    public static void fillInputPassword(String password) {
+        TestHelper.waitXpathElement(AuthorizationPage.xpathInputPassword).sendKeys(password);
     }
     @Step("Click on Submit button.")
     public static void submitAuthorization() {
@@ -24,5 +28,13 @@ public class AuthorizationPage {
     @Step("Make sure that welcome message appeared.")
     public static void seesWelcomeAuthorizedUser() {
         Assert.assertEquals(true,TestHelper.waitXpathElement(HomePage.xpathMessageWelcome).isDisplayed());
+    }
+
+    @Step("Pass authorization with valid credentials.")
+    public static void logIn() {
+        HomePage.clickOnlogInButton();
+        fillInputLogin(validLogin);
+        fillInputPassword(validPassword);
+        submitAuthorization();
     }
 }

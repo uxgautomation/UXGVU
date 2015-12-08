@@ -16,9 +16,6 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Title("Smoke Tests Suite")
-@Description("This suite's tests covers the most critical functionality of the testable product. " +
-        "Any failures which is found by this suite's tests is critical.")
 @RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestsSmoke {
@@ -35,26 +32,36 @@ public class TestsSmoke {
         this.webdriver = webdriver;
     }
 
+    @Title("Set required test suite preconditions.")
+    @BeforeClass
+    public static void precondition() {
+        Environments.goToVocalpointTestEnvironment("/articles");
+        ArticlePage.goToTheFirstAvailableArticle();
+        Environments.getGrabbedArticleUrl();
+    }
+    @Title("Launch web driver.")
     @Before
     public void setUp() {
         TestHelper.localDriverFullscreen(webdriver);
     }
+    @Title("Quit web driver.")
     @After
     public void tearDown() {
         TestHelper.quit();
     }
+    @Title("Set required test suite postconditions.")
     @AfterClass
     public static void postcondition() {
         Environments.goToVocalpointTestEnvironment("/");
         HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
+        AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
+        AuthorizationPage.fillInputPassword(AuthorizationPage.validNewPassword);
         AuthorizationPage.submitAuthorization();
         HomePage.goToMyProfile();
         ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput("Uxgpassword2");
-        ProfilePage.fillNewPasswordInput("Uxgpassword1");
-        ProfilePage.fillConfirmNewPasswordInput("Uxgpassword1");
+        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillNewPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
         ProfilePage.submitResetPasswordForm();
         ProfilePage.checkThatConfirmationMessageAppears();
     }
@@ -63,32 +70,13 @@ public class TestsSmoke {
     @Stories("User should be able to log in via existed account.")
     @Severity(SeverityLevel.BLOCKER)
     @Test
-    public void userShouldBeAbleToCreateAccount() {
+    public void userShouldBeAbleToLogIn() {
         Environments.goToVocalpointTestEnvironment("/");
         HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
+        AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
+        AuthorizationPage.fillInputPassword(AuthorizationPage.validPassword);
         AuthorizationPage.submitAuthorization();
         AuthorizationPage.seesWelcomeAuthorizedUser();
-    }
-
-    @Features("Reset Password")
-    @Stories("User should be able to change password of existed account.")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void resetPasswordVerification() {
-        Environments.goToVocalpointTestEnvironment("/");
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
-        AuthorizationPage.submitAuthorization();
-        HomePage.goToMyProfile();
-        ProfilePage.clickOnResetPasswordButton();
-        ProfilePage.fillCurrentPasswordInput("Uxgpassword1");
-        ProfilePage.fillNewPasswordInput("Uxgpassword2");
-        ProfilePage.fillConfirmNewPasswordInput("Uxgpassword2");
-        ProfilePage.submitResetPasswordForm();
-        ProfilePage.checkThatConfirmationMessageAppears();
     }
 
     @Features("Articles")
@@ -96,41 +84,11 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void a_AbilityToAddComments() {
-        Environments.goToVocalpointTestEnvironment("/articles");
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
-        AuthorizationPage.submitAuthorization();
-        ArticlePage.goToTheFirstAvailableArticle();
+        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        AuthorizationPage.logIn();
         ArticlePage.fillTextAreaByComment();
         ArticlePage.clickOnPostMyCommentButton();
         ArticlePage.verifyThatCommenIsAdded();
-    }
-
-    @Features("Loves")
-    @Stories("User should be able to add loves in articles.")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void a_AbilityToAddLoves() {
-        Environments.goToVocalpointTestEnvironment("/articles");
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
-        AuthorizationPage.submitAuthorization();
-        ArticlePage.goToTheFirstAvailableArticle();
-        ArticlePage.loveArticle();
-        ArticlePage.verifyThatLovesCounterIsUpdated();
-    }
-
-    @Features("Loves")
-    @Stories("User should be able to overview loves section in account profile.")
-    @Severity(SeverityLevel.BLOCKER)
-    @Test
-    public void b_VerifyLoveSection() {
-        Environments.goToVocalpointTestEnvironment("/");
-        HomePage.goToMyProfile();
-        ProfilePage.goToLovesSection();
-        ProfilePage.verifyLoveInLovesSection();
     }
 
     @Features("Comments")
@@ -139,6 +97,7 @@ public class TestsSmoke {
     @Test
     public void b_VerifyCommentsSection() {
         Environments.goToVocalpointTestEnvironment("/");
+        AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.goToCommentsSection();
         ProfilePage.verifyThatCommentSectionIsOpened();
@@ -149,14 +108,75 @@ public class TestsSmoke {
     @Severity(SeverityLevel.BLOCKER)
     @Test
     public void c_VerifyDeletingComments() {
-        Environments.goToVocalpointTestEnvironment("/articles");
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin();
-        AuthorizationPage.fillInputPassword();
-        AuthorizationPage.submitAuthorization();
+        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        AuthorizationPage.logIn();
         HomePage.goToMyProfile();
         ProfilePage.deleteComment();
         ProfilePage.confirmDeleteComment();
         ProfilePage.verifyThatCommentIsDeleted();
+    }
+
+    @Features("Loves")
+    @Stories("User should be able to add loves in articles.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void a_AbilityToAddLoves() {
+        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        AuthorizationPage.logIn();
+        ArticlePage.loveArticle();
+        ArticlePage.verifyThatLovesCounterIsIncreased();
+    }
+
+    @Features("Loves")
+    @Stories("User should be able to unlove in article.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void b_VerifyUnLoveInArticle() {
+        Environments.goToVocalpointTestEnvironment(Environments.grabbedArticleUrl);
+        AuthorizationPage.logIn();
+        ArticlePage.unLoveArticle();
+        ArticlePage.verifyThatLovesCounterIsDecreased();
+        ArticlePage.loveArticle();
+    }
+
+    @Features("Loves")
+    @Stories("User should be able to overview loves section in account profile.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void c_VerifyLoveSection() {
+        Environments.goToVocalpointTestEnvironment("/");
+        AuthorizationPage.logIn();
+        HomePage.goToMyProfile();
+        ProfilePage.goToLovesSection();
+        ProfilePage.verifyLoveInLovesSection();
+    }
+
+    @Features("Loves")
+    @Stories("User should be able to delete love in loves section of account profile.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void d_VerifyDeletingLove() {
+        Environments.goToVocalpointTestEnvironment("/");
+        AuthorizationPage.logIn();
+        HomePage.goToMyProfile();
+        ProfilePage.goToLovesSection();
+        ProfilePage.deleteLoveInProfile();
+        ProfilePage.verifyLoveDeleted();
+    }
+
+    @Features("Reset Password")
+    @Stories("User should be able to change password of existed account.")
+    @Severity(SeverityLevel.BLOCKER)
+    @Test
+    public void z_resetPasswordVerification() {
+        Environments.goToVocalpointTestEnvironment("/");
+        AuthorizationPage.logIn();
+        HomePage.goToMyProfile();
+        ProfilePage.clickOnResetPasswordButton();
+        ProfilePage.fillCurrentPasswordInput(AuthorizationPage.validPassword);
+        ProfilePage.fillNewPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.fillConfirmNewPasswordInput(AuthorizationPage.validNewPassword);
+        ProfilePage.submitResetPasswordForm();
+        ProfilePage.checkThatConfirmationMessageAppears();
     }
 }

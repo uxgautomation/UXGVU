@@ -14,7 +14,7 @@ public class ProfilePage {
 
     public static String xpathLinkToCommentsSection = "//a[@href='/profile/2049189/comments']";
     public static String xpathCommentInCommentsSection = "//p[text()='Selenium autotest comment.']";
-    public static String xpathButtonDeleteComment = "//a[text()='delete']";
+    public static String xpathButtonDeleteCommentLove = "//a[text()='delete']";
     public static String xpathButtonYesDeleteComment = "//button[text()='Yes']";
 
     public static String xpathLinkToLovesSection = "//a[contains(@href,'/loves')]";
@@ -58,7 +58,7 @@ public class ProfilePage {
 
     @Step("Click on Delete button to remove comment.")
     public static void deleteComment() {
-        TestHelper.waitXpathElement(xpathButtonDeleteComment).click();
+        TestHelper.waitXpathElement(xpathButtonDeleteCommentLove).click();
     }
     @Step("Confirm deleting by click on Yes button in pop up.")
     public static void confirmDeleteComment() {
@@ -76,5 +76,15 @@ public class ProfilePage {
     @Step("Verify that there is Love in Loves section.")
     public static void verifyLoveInLovesSection() {
         Assert.assertEquals(true,TestHelper.waitXpathElement(xpathLoveInLovesSection).isDisplayed());
+    }
+
+    @Step("Click delete button in Loves section of user profile.")
+    public static void deleteLoveInProfile() {
+        TestHelper.waitXpathElement(xpathButtonDeleteCommentLove).click();
+    }
+    @Step("Verify that deleted love isn't displays in Loves section of user profile.")
+    public static void verifyLoveDeleted() {
+        Assert.assertEquals(true,TestHelper.waitXpathElementNotExist(xpathLoveInLovesSection));
+
     }
 }
