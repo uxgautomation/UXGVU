@@ -32,7 +32,7 @@ public class AuthorizationPage {
 
     @Step("Pass authorization with valid credentials.")
     public static void logIn() {
-        HomePage.clickOnlogInButton();
+        HomePage.clickOnLogInButton();
         fillInputLogin(validLogin);
         fillInputPassword(validPassword);
         submitAuthorization();

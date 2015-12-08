@@ -12,6 +12,7 @@ import org.junit.runners.MethodSorters;
 import org.junit.runners.Parameterized;
 import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.model.SeverityLevel;
+import sun.java2d.cmm.Profile;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,6 +39,11 @@ public class TestsSmoke {
         TestHelper.localDriverFullscreenAndGo("chrome","https://test2.vocalpoint.com/articles");
         ArticlePage.goToTheFirstAvailableArticle();
         Environments.getGrabbedArticleUrl();
+        AuthorizationPage.logIn();
+        HomePage.goToMyProfile();
+        ProfilePage.clickOnResetPasswordButton();
+        ProfilePage.setDefaultPassword();
+        TestHelper.quit();
     }
     @AfterClass
     public static void setPostcondition() {
@@ -60,11 +66,8 @@ public class TestsSmoke {
     @Test
     public void userShouldBeAbleToLogIn() {
         Environments.goTo(Environments.TEST_VOCALPOINT_BASE_URL);
-        HomePage.clickOnlogInButton();
-        AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
-        AuthorizationPage.fillInputPassword(AuthorizationPage.validPassword);
-        AuthorizationPage.submitAuthorization();
-        AuthorizationPage.verifyWelcomeMessage();
+        HomePage.clickOnLogInButton();
+        ProfilePage.setRightPreconditionPasswordAndLogIn();
     }
 
     @Features("Articles")

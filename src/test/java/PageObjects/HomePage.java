@@ -11,7 +11,7 @@ public class HomePage {
     public static String xpathButtonMyProfile = "//a[@title='My profile']";
 
     @Step("Click on Log In button.")
-    public static void clickOnlogInButton() {
+    public static void clickOnLogInButton() {
         TestHelper.waitXpathElement(HomePage.xpathButtonLogin).click();
     }
 

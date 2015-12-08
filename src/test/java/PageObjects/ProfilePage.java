@@ -20,6 +20,41 @@ public class ProfilePage {
     public static String xpathLinkToLovesSection = "//a[contains(@href,'/loves')]";
     public static String xpathLoveInLovesSection = "//div[@class='topic-title']";
 
+    public static int checkpointForPickUpPassword = 0;
+
+    @Step("Pick up current password and log in.")
+    public static void setRightPreconditionPasswordAndLogIn() {
+        HomePage.clickOnLogInButton();
+        AuthorizationPage.fillInputLogin(AuthorizationPage.validLogin);
+        AuthorizationPage.fillInputPassword(AuthorizationPage.validPassword);
+        AuthorizationPage.submitAuthorization();
+        verifyCurrentPasswordAndLogIn();
+    }
+    @Step("Find out which password uses and log in.")
+    public static void verifyCurrentPasswordAndLogIn() {
+        if(TestHelper.waitXpathElement(HomePage.xpathMessageWelcome).isDisplayed()) {
+            checkpointForPickUpPassword = 1;
+        } else {
+            TestHelper.waitXpathElement(AuthorizationPage.xpathInputPassword).clear();
+            TestHelper.waitXpathElement(AuthorizationPage.xpathInputPassword).sendKeys(AuthorizationPage.validNewPassword);
+            TestHelper.waitXpathElement(AuthorizationPage.xpathSubmitButton).click();
+        }
+    }
+    @Step("Set right current password.")
+    public static void setDefaultPassword() {
+        if(checkpointForPickUpPassword == 1) {
+        } else {
+            HomePage.goToMyProfile();
+            clickOnResetPasswordButton();
+            fillCurrentPasswordInput(AuthorizationPage.validNewPassword);
+            fillNewPasswordInput(AuthorizationPage.validPassword);
+            fillConfirmNewPasswordInput(AuthorizationPage.validPassword);
+            submitResetPasswordForm();
+            verifyThatConfirmationMessageAppears();
+        }
+    }
+
+
     @Step("Click on Reset Password.")
     public static void clickOnResetPasswordButton() {
         TestHelper.moveXpathElement(xpathButtonResetPassword);
